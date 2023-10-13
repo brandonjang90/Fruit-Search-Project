@@ -13,7 +13,7 @@ function search(str) {
 	// Have user input lowercased
 	let inputLowerCase = str.toLowerCase();
 
-	// Loop through the array of fruits to return fruits that includes the string user inputs
+	// Loop through fruit to return fruits that includes user input string
 
 	for(i = 0; i < fruitLowerCase.length; i++){
 		if (fruitLowerCase[i].includes(inputLowerCase)){
@@ -27,14 +27,17 @@ function search(str) {
 }
 
 function searchHandler(e) {
-e.preventDefault();
-const results = search(input.value);
-showSuggestions(results, input.value)
+	e.preventDefault();
+	const results = search(input.value);
+	showSuggestions(results, input.value)
 }
 
 function showSuggestions(results, inputVal) {
-	// 
+
+	// makes sure that suggestions is empty unless there's user input
 	suggestions.innerText= '';
+
+	// If value is inputted, iterate results and for each fruit that matches user input, make a list element.
 
 	if (inputVal != ''){
 		results.forEach(result => {
@@ -46,8 +49,11 @@ function showSuggestions(results, inputVal) {
 }
 
 function useSuggestion(e) {
-suggestions.innerText = "";
-input.value = e.target.innerText;
+	// makes sure that suggestions list is cleared once a suggestion is selected
+	suggestions.innerText = "";
+
+	// Set input value to selected suggestion
+	input.value = e.target.innerText;
 }
 
 input.addEventListener('keyup', searchHandler);
