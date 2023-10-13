@@ -7,20 +7,23 @@ const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackb
 function search(str) {
 	let results = [];
 
-	// Make fruit list lowecased
+	// Make fruit list lowercased
 	let fruitLowerCase = fruit.map(fruit => fruit.toLowerCase());
 
 	// Have user input lowercased
 	let inputLowerCase = str.toLowerCase();
 
+	// Loop through the array of fruits to return fruits that includes the string user inputs
 
-	
-	// // // Filter the list of fruits by user input and return the result
-	results.push(fruitLowerCase.filter(fruit => fruit.includes(inputLowerCase)));
+	for(i = 0; i < fruitLowerCase.length; i++){
+		if (fruitLowerCase[i].includes(inputLowerCase)){
+			results.push(fruitLowerCase[i]).toString;
+		};
 
-	results.forEach(result => {
-	})
+	};
+
 	return results;
+
 }
 
 function searchHandler(e) {
@@ -30,12 +33,13 @@ showSuggestions(results, input.value)
 }
 
 function showSuggestions(results, inputVal) {
+	// 
 	suggestions.innerText= '';
 
 	if (inputVal != ''){
 		results.forEach(result => {
 			let dropDown = document.createElement("li");
-			dropDown.textContent = results;
+			dropDown.textContent = result;
 			suggestions.appendChild(dropDown);
 		});
 	};
