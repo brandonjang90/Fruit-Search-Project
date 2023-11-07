@@ -1,60 +1,45 @@
 const input = document.querySelector('#fruit');
-const suggestions = document.querySelector('.suggestions ul');
+const suggestionsList = document.querySelector('.suggestions ul');
 
 const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry', 'Currant', 'Cherry', 'Coconut', 'Cranberry', 'Cucumber', 'Custard apple', 'Damson', 'Date', 'Dragonfruit', 'Durian', 'Elderberry', 'Feijoa', 'Fig', 'Gooseberry', 'Grape', 'Raisin', 'Grapefruit', 'Guava', 'Honeyberry', 'Huckleberry', 'Jabuticaba', 'Jackfruit', 'Jambul', 'Juniper berry', 'Kiwifruit', 'Kumquat', 'Lemon', 'Lime', 'Loquat', 'Longan', 'Lychee', 'Mango', 'Mangosteen', 'Marionberry', 'Melon', 'Cantaloupe', 'Honeydew', 'Watermelon', 'Miracle fruit', 'Mulberry', 'Nectarine', 'Nance', 'Olive', 'Orange', 'Clementine', 'Mandarine', 'Tangerine', 'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Plantain', 'Plum', 'Pineapple', 'Pomegranate', 'Pomelo', 'Quince', 'Raspberry', 'Salmonberry', 'Rambutan', 'Redcurrant', 'Salak', 'Satsuma', 'Soursop', 'Star fruit', 'Strawberry', 'Tamarillo', 'Tamarind', 'Yuzu'];
 
+const search = (inputValue) => fruit.filter(f => f.toLowerCase() === inputValue);
 
-function search(str) {
-	let results = [];
-
-	// Make fruit list lowercased
-	let fruitLowerCase = fruit.map(fruit => fruit.toLowerCase());
-
-	// Have user input lowercased
-	let inputLowerCase = str.toLowerCase();
-
-	// Loop through fruit to return fruits that includes user input string
-
-	for(i = 0; i < fruitLowerCase.length; i++){
-		if (fruitLowerCase[i].includes(inputLowerCase)){
-			results.push(fruitLowerCase[i]).toString;
-		};
-
-	};
-
-	return results;
-
+function clearSuggestions() {
+	suggestionsList.textContent = '';
 }
 
-function searchHandler(e) {
-	e.preventDefault();
-	const results = search(input.value);
-	showSuggestions(results, input.value)
+function searchHandler(event) {
+	const inputValue = event.target.value;
+
+	// Only show suggestions if there is input
+	if (inputValue.trim() !== '') {
+		const inputLowerCase = inputValue.toLowerCase();
+		const results = search(inputLowerCase);
+		showSuggestions(results);
+	} else {
+		clearSuggestions()
+	}
 }
 
-function showSuggestions(results, inputVal) {
+function showSuggestions(results) {
+	clearSuggestions();
 
-	// makes sure that suggestions is empty unless there's user input
-	suggestions.innerText= '';
-
-	// If value is inputted, iterate results and for each fruit that matches user input, make a list element.
-
-	if (inputVal != ''){
-		results.forEach(result => {
-			let dropDown = document.createElement("li");
-			dropDown.textContent = result;
-			suggestions.appendChild(dropDown);
-		});
-	};
+	results.forEach(result => {
+		let listItem = document.createElement("li");
+		listItem.textContent = result;
+		suggestionsList.appendChild(listItem);
+	});
 }
 
 function useSuggestion(e) {
-	// makes sure that suggestions list is cleared once a suggestion is selected
-	suggestions.innerText = "";
-
-	// Set input value to selected suggestion
-	input.value = e.target.innerText;
+	if (e.target.tagName.toLowerCase() === 'li') {
+		input.value = e.target.textContent;
+		clearSuggestions();
+	}
 }
 
 input.addEventListener('keyup', searchHandler);
-suggestions.addEventListener('click', useSuggestion);
+suggestionsList.addEventListener('click', useSuggestion);
+
+
