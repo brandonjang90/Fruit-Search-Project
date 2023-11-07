@@ -6,10 +6,16 @@ const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackb
 const search = (inputValue) => fruit.filter(f => f.toLowerCase().includes(inputValue));
 
 function searchHandler(e) {
-	e.preventDefault();
-	const lowerCaseValue = input.value.toLowerCase();
-	const results = search(lowerCaseValue);
-	showSuggestions(results, input.value)
+  const inputVal = e.target.value;
+
+  // Only show suggestions if there is input
+  // this will ignore all space
+  if (inputVal.trim() !== '') {
+    const results = search(inputVal);
+    showSuggestions(results);
+  } else {
+    suggestions.textContent = '';
+  }
 }
 
 function showSuggestions(results, inputVal) {
